@@ -1,0 +1,25 @@
+{
+  "name": "francis",
+  "main": "francis.js",
+  "version": "0.0.0",
+  "authors": [
+    "Adam Langsner <adam@betterment.com>"
+  ],
+  "homepage": "https://github.com/Betterment/francis.js",
+  "description": "A stateless controlled experiment provider",
+  "keywords": [
+    "a/b testing",
+    "experiment",
+    "split testing"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test"
+  ],
+  "dependencies": {
+    "underscore": "1.6.0"
+  }
+}
