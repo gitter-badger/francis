@@ -33,5 +33,35 @@ describe('Francis', function() {
 
             expect(registerExperiments(experiments)).to.throw('variation weights for experiment "decimal_experiment" must all be integers');
         });
+
+        it ('should not throw any errors with valid experiment', function() {
+            var experiments = {
+                'experiment_a': generateExperiment(20, 20, 20, 20, 20),
+                'experiment_b': generateExperiment(25, 75),
+                'experiment_c': generateExperiment(50, 50),
+                'experiment_d': generateExperiment(10, 20, 30, 40)
+            };
+
+            expect(registerExperiments(experiments)).to.not.throw();
+        });
+    });
+
+    describe('#registerLogger', function() {
+
+        function registerLogger(logger) {
+            return Francis.registerLogger.bind(Francis, logger);
+        }
+
+        it ('should throw an error if not passed a function', function() {
+
+            var logger = "certainly not a function";
+            expect(registerLogger(logger)).to.throw('logger must be a function');
+        });
+
+        it ('should not throw any errors if passed a function', function() {
+
+            var logger = function() {};
+            expect(registerLogger(logger)).to.not.throw();
+        });
     });
 });

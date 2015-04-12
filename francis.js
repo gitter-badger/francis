@@ -37,6 +37,9 @@
         },
 
         registerLogger: function(value) {
+            if (!_.isFunction(value)) {
+                throw new Error('logger must be a function');
+            }
             logger = value;
         },
 
