@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Basic Experiment</title>
+</head>
+<body>
+    <h2 class="experiment-area"></h2>
+    <button class="clear-cookies">Clear cookies</button>
+    <button class="reload-page">Reload Page</button>
+
+    <script src="../node_modules/underscore/underscore.js"></script>
+    <script src="../node_modules/blueimp-md5/js/md5.js"></script>
+    <script src="../node_modules/jquery/dist/jquery.js"></script>
+    <script src="../node_modules/jquery.cookie/jquery.cookie.js"></script>
+    <script src="../francis.js"></script>
+    <script>
+        $(function() {
+            setupExperiment();
+            setupButtonHandlers();
+
+            runExperiment(getTestSubjectId());
+        });
+
+        function setupExperiment() {
+            Francis.registerExperiments({
+                'text_color': [
+                    { name:    'red', weight: 25 },
+                    { name:   'blue', weight: 25 },
+                    { name:  'green', weight: 25 },
+                    { name: 'purple', weight: 25 }
+                ]
+            });
+
+            Francis.registerLogger(function(experimentName, testSubjectId, variationName) {
+                console.log('This is where you log the experience to collect data on your experiment. For instance:');
+                console.log('mixpanel.track("ExperimentViewed", { experiment: "' + experimentName + '", testSubjectId: "' + testSubjectId + '", variationName: "' + variationName + '" })');
+            });
+        }
+
+        function setupButtonHandlers() {
+            $('button.clear-cookies').click(function() {
+                $.removeCookie('test_subject_id', { path: '/' });
+            });
+
+            $('button.reload-page').click(function() {
+                location.reload();
+            });
+        }
+
+        function getTestSubjectId() {
+            var testSubjectId = $.cookie('test_subject_id');
+            
+            // first time visitor, give them an id and persist in a cookie
+            if (!testSubjectId) {
+                testSubjectId = Francis.util.guid();
+                $.cookie('test_subject_id', testSubjectId, { expires: 365, path: '/' });
+            }
+
+            return testSubjectId;
+        }
+
+        function runExperiment(testSubjectId) {
+            Francis.runExperiment('text_color', testSubjectId, function(variationName) {
+                $('.experiment-area')
+                    .css('color', variationName)
+                    .text('test subject #' + testSubjectId + ' got variation "' + variationName + '"');
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-// @echo banner
+// francis.js v0.0.0
 ;(function (root, factory) {
     // https://github.com/umdjs/umd/blob/master/returnExports.js
     if (typeof exports === 'object') {
@@ -19,20 +19,6 @@
 
     return {
         registerExperiments: function(value) {
-            _.each(value, function(variations, experimentName) {
-                var total_weight = _.reduce(variations, function(sum, variation) {
-                    if (variation.weight !== parseInt(variation.weight, 10)) {
-                        throw new Error('variation weights for experiment "' + experimentName + '" must all be integers');
-                    }
-
-                    return sum + variation.weight;
-                }, 0);
-
-                if (total_weight !== 100) {
-                    throw new Error('variation weights for experiment "' + experimentName + '" must sum to 100');
-                }
-            });
-
             experiments = value;
         },
 
