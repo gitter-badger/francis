@@ -54,6 +54,10 @@
                 throw new Error('Unkown experiment: "' + experimentName + '"');
             }
 
+            if (!_.isFunction(handler)) {
+                throw new Error('Must provide a handler function');
+            }
+
             selectedVariation = _.filter(experiment, function(variation) {
                 var oldWeightCounter = weightCounter;
                 weightCounter += variation.weight * 256;

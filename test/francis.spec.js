@@ -65,6 +65,45 @@ describe('Francis', function() {
         });
     });
 
+    describe('#runExperiment', function() {
+        function runExperiment(experimentName, testSubjectId, handler) {
+            return Francis.runExperiment.bind(Francis, experimentName, testSubjectId, handler);
+        }
+
+        beforeEach(function() {
+            this.sinon = sinon.sandbox.create();
+
+            Francis.registerExperiments({
+                'experiment': generateExperiment(50, 50)
+            });
+        });
+
+        afterEach(function() {
+            this.sinon.restore();
+        });
+
+        it('should throw an error when given an experiment that does not exist', function() {
+            expect(runExperiment('fake_experiment', Francis.util.guid(), function() {})).to.throw('Unkown experiment: "fake_experiment"');
+        });
+
+        it('should throw an error when not given a handler function', function() {
+            expect(runExperiment('experiment', Francis.util.guid(), "not a function")).to.throw('Must provide a handler function');
+        });
+
+
+        it('should not call the logger if the handler function throws an error', function() {
+            var logger = this.sinon.spy(),
+                handler = function() {
+                    throw new Error('I did something bad.');
+                };
+
+            Francis.registerLogger(logger);
+
+            expect(runExperiment('experiment', Francis.util.guid(), handler)).to.throw('I did something bad.');
+            expect(logger).to.not.have.been.called;
+        });
+    });
+
     describe('util', function() {
         describe('#guid()', function() {
             expect(Francis.util.guid()).to.match(/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-(8|9|a|b)[0-9a-f]{3}-[0-9a-f]{12}$/);
