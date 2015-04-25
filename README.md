@@ -1,4 +1,6 @@
 # Francis
+
+[![Join the chat at https://gitter.im/Betterment/francis](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/Betterment/francis?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 A stateless controlled experiment provider
 
 <a title="Build Status" href="https://travis-ci.org/Betterment/francis">
