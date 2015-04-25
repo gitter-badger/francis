@@ -34,7 +34,7 @@
 
             Francis.registerLogger(function(experimentName, testSubjectId, variationName) {
                 console.log('This is where you log the experience to collect data on your experiment. For instance:');
-                console.log('mixpanel.track("ExperimentViewed", { experiment: "' + experimentName + '", testSubjectId: "' + testSubjectId + '", variationName: "' + variationName + '" })');
+                console.log('mixpanel.track("ExperimentViewed", {\n\texperiment: "' + experimentName + '",\n\ttestSubjectId: "' + testSubjectId + '",\n\tvariationName: "' + variationName + '"\n});');
             });
         }
 
